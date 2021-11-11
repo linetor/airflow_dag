@@ -19,6 +19,7 @@ dag  = DAG(dag_id='ebs_radio_recording',
            schedule_interval="40 07 * * *")
 
 configparser = ConfigParser()
+configparser.read(+'./ebs_radio_cron/.config')
 radio_address = configparser.get('ebs_address', 'ebs_fm')
 recording_loc = configparser.get('recording_loc', 'recording_loc')
 record_mins = "20"
