@@ -9,37 +9,42 @@ import datetime
 date = datetime.datetime.now()
 date_str = date.strftime('%Y-%m-%d')
 
+import sys
+sys.path.append('/Users/kimtaesuk/linetor/airflow/dags/airflow_dag/')
 
 local_tz = pendulum.timezone("Asia/Seoul")
 #args = {'owner': 'linetor', 'start_date': days_ago(n=1)}
-args = {'owner': 'linetor', 'start_date': datetime.datetime(2020, 11, 10, tzinfo=local_tz)}
+args = {'owner': 'linetor', 'start_date': datetime.datetime(2021, 11, 10, tzinfo=local_tz)}
 
 dag  = DAG(dag_id='ebs_radio_recording',
            default_args=args,
            schedule_interval="40 07 * * *")
 
 configparser = ConfigParser()
-configparser.read(+'./ebs_radio_cron/.config')
+configparser.read('/Users/kimtaesuk/linetor/airflow/dags/airflow_dag/ebs_radio_cron/.config')
 radio_address = configparser.get('ebs_address', 'ebs_fm')
 recording_loc = configparser.get('recording_loc', 'recording_loc')
-record_mins = "20"
+record_mins = str(20*60)
 
 program_name = "POWER_ENGLISH"
 ori_file = recording_loc + date_str + '_' + ''
 m4a_file = recording_loc + date_str + '_' + 'POWER_ENGLISH' + '.m4a'
 
 recoring_command = f"rtmpdump -r {radio_address} -B {record_mins} -o {ori_file}"
+print( recoring_command)
 
 
 recording_task = BashOperator(task_id='recording',
-                  bash_command='recoring_command',
+                  bash_command=recoring_command,
                   dag=dag)
 
 
 format_command = f"ffmpeg -i {ori_file} -vn -acodec copy  {m4a_file}"
 
+print(format_command)
+
 formatting_task = BashOperator(task_id='formatting',
-                  bash_command='format_command',
+                  bash_command=format_command,
                   dag=dag)
 
 
