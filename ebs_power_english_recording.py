@@ -60,11 +60,11 @@ doing_dropbox = PythonOperator(
     task_id = 'doing_dropbox',
     python_callable = recoding_by_shell.upload_to_dropbox,
     op_kwargs={
-        'dbx':dbx ,
-        'upload_loc':upload_loc ,
-        'date_str':date_str ,
+        'dbx_variable':dbx ,
+        'upload_loc_var':upload_loc ,
+        'date_str_variable':date_str ,
         'move_loc': move_loc,
-        'program_name': program_name
+        'move_loc_var': program_name
     },
     dag = dag
 )
