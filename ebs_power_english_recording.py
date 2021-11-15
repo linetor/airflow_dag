@@ -64,7 +64,8 @@ doing_dropbox = PythonOperator(
         'upload_loc_var':upload_loc ,
         'date_str_variable':date_str ,
         'move_loc_var': move_loc,
-        'program_name_var': program_name
+        'program_name_var': program_name,
+        'current_loc_var':recording_loc,
     },
     dag = dag
 )
