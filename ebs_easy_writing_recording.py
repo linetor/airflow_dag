@@ -18,7 +18,7 @@ args = {'owner': 'linetor', 'start_date': datetime.datetime(2021, 11, 10, tzinfo
 
 dag  = DAG(dag_id='ebs_radio_recording',
            default_args=args,
-           schedule_interval="40 07 * * 1-6")
+           schedule_interval="00 06 * * 1-6")
 
 configparser = ConfigParser()
 configparser.read('/Users/kimtaesuk/linetor/airflow/dags/airflow_dag/ebs_radio_cron/.config')
@@ -26,7 +26,7 @@ radio_address = configparser.get('ebs_address', 'ebs_fm')
 recording_loc = configparser.get('recording_loc', 'recording_loc')
 record_mins = str(20*60)
 
-program_name = "POWER_ENGLISH"
+program_name = "EASY_WRITING"
 ori_file = recording_loc + date_str + '_' + program_name
 m4a_file = recording_loc + date_str + '_' + program_name + '.m4a'
 
@@ -35,8 +35,8 @@ print( recoring_command)
 
 
 recording_task = BashOperator(task_id='recording',
-                  bash_command=recoring_command,
-                  dag=dag)
+                              bash_command=recoring_command,
+                              dag=dag)
 
 
 format_command = f"ffmpeg -i {ori_file} -vn -acodec copy  {m4a_file}"
@@ -44,8 +44,8 @@ format_command = f"ffmpeg -i {ori_file} -vn -acodec copy  {m4a_file}"
 print(format_command)
 
 formatting_task = BashOperator(task_id='formatting',
-                  bash_command=format_command,
-                  dag=dag)
+                               bash_command=format_command,
+                               dag=dag)
 
 
 api_token = configparser.get('dropbox', 'api_token')
