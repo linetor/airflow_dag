@@ -16,7 +16,7 @@ local_tz = pendulum.timezone("Asia/Seoul")
 #args = {'owner': 'linetor', 'start_date': days_ago(n=1)}
 args = {'owner': 'linetor', 'start_date': datetime.datetime(2021, 11, 16, tzinfo=local_tz)}
 
-dag  = DAG(dag_id='ebs_radio_recording',
+dag  = DAG(dag_id='ebs_radio_recording_mouse_open',
            default_args=args,
            schedule_interval="40 06 * * 1-6")
 
