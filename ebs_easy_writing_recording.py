@@ -14,7 +14,7 @@ sys.path.append('/Users/kimtaesuk/linetor/airflow/dags/airflow_dag/')
 
 local_tz = pendulum.timezone("Asia/Seoul")
 #args = {'owner': 'linetor', 'start_date': days_ago(n=1)}
-args = {'owner': 'linetor', 'start_date': datetime.datetime(2021, 11, 10, tzinfo=local_tz)}
+args = {'owner': 'linetor', 'start_date': datetime.datetime(2021, 11, 16, tzinfo=local_tz)}
 
 dag  = DAG(dag_id='ebs_radio_recording',
            default_args=args,
