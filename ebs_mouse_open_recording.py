@@ -9,8 +9,7 @@ import datetime
 date = datetime.datetime.now()
 date_str = date.strftime('%Y-%m-%d')
 
-import sys
-sys.path.append('/Users/kimtaesuk/linetor/airflow/dags/airflow_dag/')
+
 
 local_tz = pendulum.timezone("Asia/Seoul")
 #args = {'owner': 'linetor', 'start_date': days_ago(n=1)}
@@ -21,7 +20,7 @@ dag  = DAG(dag_id='ebs_radio_recording_mouse_open',
            schedule_interval="40 06 * * 1-6")
 
 configparser = ConfigParser()
-configparser.read('/Users/kimtaesuk/linetor/airflow/dags/airflow_dag/ebs_radio_cron/.config')
+configparser.read('{AIRFLOW_HOME}/../airflow/dags/airflow_dag/ebs_radio_cron/.config')
 radio_address = configparser.get('ebs_address', 'ebs_fm')
 recording_loc = configparser.get('recording_loc', 'recording_loc')
 record_mins = str(20*60)

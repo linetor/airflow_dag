@@ -22,7 +22,8 @@ dag  = DAG(dag_id='ebs_radio_recording_easy_writing',
 
 configparser = ConfigParser()
 #todo : need to check path
-configparser.read('~/linetor/airflow/dags/airflow_dag/ebs_radio_cron/.config')
+configparser.read('{AIRFLOW_HOME}/../airflow/dags/airflow_dag/ebs_radio_cron/.config')
+
 
 radio_address = configparser.get('ebs_address', 'ebs_fm')
 recording_loc = configparser.get('recording_loc', 'recording_loc')
