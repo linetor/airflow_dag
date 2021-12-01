@@ -21,6 +21,11 @@ dag  = DAG(dag_id='stock_companyinfor_crawl',
 configparser = ConfigParser()
 #todo : need to check path
 
+import os
+import sys
+sys.path.append(os.environ["AIRFLOW_HOME"] + '/../airflow/dags/airflow_dag/')
+
+
 from stock_crawl.StockCrawl import CrawlCompanyInfor
 
 def call_crawl_companyinfor():
