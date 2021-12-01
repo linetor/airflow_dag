@@ -21,6 +21,9 @@ dag  = DAG(dag_id='ebs_radio_recording_power_english',
 configparser = ConfigParser()
 import os
 configparser.read( os.environ["AIRFLOW_HOME"]+'/../airflow/dags/airflow_dag/ebs_radio_cron/.config')
+import sys
+sys.path.append(os.environ["AIRFLOW_HOME"] + '/../airflow/dags/airflow_dag/')
+
 radio_address = configparser.get('ebs_address', 'ebs_fm')
 recording_loc = configparser.get('recording_loc', 'recording_loc')
 record_mins = str(20*60)

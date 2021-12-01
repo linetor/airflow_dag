@@ -24,7 +24,8 @@ configparser = ConfigParser()
 #todo : need to check path
 import os
 configparser.read( os.environ["AIRFLOW_HOME"]+'/../airflow/dags/airflow_dag/ebs_radio_cron/.config')
-
+import sys
+sys.path.append(os.environ["AIRFLOW_HOME"] + '/../airflow/dags/airflow_dag/')
 
 radio_address = configparser.get('ebs_address', 'ebs_fm')
 recording_loc = configparser.get('recording_loc', 'recording_loc')

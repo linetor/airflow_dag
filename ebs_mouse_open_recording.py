@@ -11,6 +11,7 @@ date_str = date.strftime('%Y-%m-%d')
 
 
 
+
 local_tz = pendulum.timezone("Asia/Seoul")
 #args = {'owner': 'linetor', 'start_date': days_ago(n=1)}
 args = {'owner': 'linetor', 'start_date': datetime.datetime(2021, 11, 16, tzinfo=local_tz)}
@@ -22,6 +23,9 @@ dag  = DAG(dag_id='ebs_radio_recording_mouse_open',
 configparser = ConfigParser()
 import os
 configparser.read( os.environ["AIRFLOW_HOME"]+'/../airflow/dags/airflow_dag/ebs_radio_cron/.config')
+import sys
+sys.path.append(os.environ["AIRFLOW_HOME"] + '/../airflow/dags/airflow_dag/')
+
 radio_address = configparser.get('ebs_address', 'ebs_fm')
 recording_loc = configparser.get('recording_loc', 'recording_loc')
 record_mins = str(20*60)
