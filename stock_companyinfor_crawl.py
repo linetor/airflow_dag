@@ -21,7 +21,6 @@ dag  = DAG(dag_id='stock_companyinfor_crawl',
 configparser = ConfigParser()
 #todo : need to check path
 
-from ebs_radio_cron import recoding_by_shell
 from stock_crawl.StockCrawl import CrawlCompanyInfor
 
 def call_crawl_companyinfor():
