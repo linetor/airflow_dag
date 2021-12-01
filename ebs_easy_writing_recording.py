@@ -22,7 +22,8 @@ dag  = DAG(dag_id='ebs_radio_recording_easy_writing',
 
 configparser = ConfigParser()
 #todo : need to check path
-configparser.read('{AIRFLOW_HOME}/../airflow/dags/airflow_dag/ebs_radio_cron/.config')
+import os
+configparser.read( os.environ["AIRFLOW_HOME"]+'/../airflow/dags/airflow_dag/ebs_radio_cron/.config')
 
 
 radio_address = configparser.get('ebs_address', 'ebs_fm')

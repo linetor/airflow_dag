@@ -20,7 +20,8 @@ dag  = DAG(dag_id='ebs_radio_recording_mouse_open',
            schedule_interval="40 06 * * 1-6")
 
 configparser = ConfigParser()
-configparser.read('{AIRFLOW_HOME}/../airflow/dags/airflow_dag/ebs_radio_cron/.config')
+import os
+configparser.read( os.environ["AIRFLOW_HOME"]+'/../airflow/dags/airflow_dag/ebs_radio_cron/.config')
 radio_address = configparser.get('ebs_address', 'ebs_fm')
 recording_loc = configparser.get('recording_loc', 'recording_loc')
 record_mins = str(20*60)
