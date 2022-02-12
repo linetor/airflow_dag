@@ -16,7 +16,7 @@ args = {'owner': 'linetor', 'start_date': datetime.datetime(2021, 12, 3, tzinfo=
 
 dag  = DAG(dag_id='stock_companyinfor_crawl',
            default_args=args,
-           catchUp=False,
+           catchup=False,
            schedule_interval="0 8 * * 0")
 
 configparser = ConfigParser()

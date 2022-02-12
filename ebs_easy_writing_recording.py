@@ -18,7 +18,7 @@ args = {'owner': 'linetor', 'start_date': datetime.datetime(2021, 11, 16, tzinfo
 
 dag  = DAG(dag_id='ebs_radio_recording_easy_writing',
            default_args=args,
-           catchUp=False,
+           catchup=False,
            schedule_interval="00 06 * * 1-6")
 
 configparser = ConfigParser()
