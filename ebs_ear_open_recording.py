@@ -76,6 +76,11 @@ doing_dropbox = PythonOperator(
     dag = dag
 )
 
+delete_command = f"rm  {ori_file}*"
+delete_task = BashOperator(task_id='delete_command',
+                               bash_command=delete_command,
+                               dag=dag)
+
 from airflow.operators.dummy_operator import DummyOperator
 start_task = DummyOperator(
     task_id='start',
@@ -86,7 +91,7 @@ end_task = DummyOperator(
     dag=dag,
 )
 
-start_task >> recording_task >> formatting_task >> doing_dropbox >> end_task
+start_task >> recording_task >> formatting_task >> doing_dropbox >> delete_task >> end_task
 
 
 

@@ -6,6 +6,7 @@ from airflow.operators.bash_operator import BashOperator
 args = {'owner': 'linetor', 'start_date': days_ago(n=1)}
 dag  = DAG(dag_id='my_first_dag',
            default_args=args,
+           catchup=False,
            schedule_interval='@daily')
 
 t1 = BashOperator(task_id='print_date',
