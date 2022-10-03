@@ -33,13 +33,22 @@ recording_loc = configparser.get('recording_loc', 'recording_loc')
 record_mins = str(20*60)
 
 program_name = "EAR_OPEN"
-ori_file = recording_loc + date_str + '_' + program_name
-m4a_file = recording_loc + date_str + '_' + program_name + '.m4a'
+ori_file = recording_loc + date_str + '_' + program_name + '.mp3'
+#m4a_file = recording_loc + date_str + '_' + program_name + '.m4a'
 
-recoring_command = f"rtmpdump -r {radio_address} -B {record_mins} -o {ori_file}"
+#recoring_command = f"rtmpdump -r {radio_address} -B {record_mins} -o {ori_file}"
+#ffmpeg -t 600 -y -i http://ebsonairiosaod.ebs.co.kr/fmradiobandiaod/bandiappaac/playlist.m3u8   temp.mp3
+
+recoring_command = f"ffmpeg -t {record_mins} -y -i {radio_address}  {ori_file}"
+
 print( recoring_command)
 
+recording_task = BashOperator(task_id='recording',
+                              bash_command=recoring_command,
+                              dag=dag)
 
+
+"""
 recording_task = BashOperator(task_id='recording',
                               bash_command=recoring_command,
                               dag=dag)
@@ -52,6 +61,8 @@ print(format_command)
 formatting_task = BashOperator(task_id='formatting',
                                bash_command=format_command,
                                dag=dag)
+"""
+
 
 
 api_token = configparser.get('dropbox', 'api_token')
@@ -91,7 +102,8 @@ end_task = DummyOperator(
     dag=dag,
 )
 
-start_task >> recording_task >> formatting_task >> doing_dropbox >> delete_task >> end_task
+#start_task >> recording_task >> formatting_task >> doing_dropbox >> delete_task >> end_task
+start_task >> recording_task  >> doing_dropbox >> delete_task >> end_task
 
 
 
