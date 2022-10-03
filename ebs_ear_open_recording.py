@@ -34,11 +34,7 @@ record_mins = str(20*60)
 
 program_name = "EAR_OPEN"
 ori_file = recording_loc + date_str + '_' + program_name + '.mp3'
-#m4a_file = recording_loc + date_str + '_' + program_name + '.m4a'
 
-#recoring_command = f"rtmpdump -r {radio_address} -B {record_mins} -o {ori_file}"
-#ffmpeg -t 600 -y -i http://ebsonairiosaod.ebs.co.kr/fmradiobandiaod/bandiappaac/playlist.m3u8   temp.mp3
-#ebs_fm = rtmp://ebsandroid.ebs.co.kr/fmradiofamilypc/familypc1m
 
 recoring_command = f"ffmpeg -t {record_mins} -y -i {radio_address}  {ori_file}"
 
