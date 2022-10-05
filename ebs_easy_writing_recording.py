@@ -33,7 +33,7 @@ recording_loc = configparser.get('recording_loc', 'recording_loc')
 record_mins = str(20*60)
 
 program_name = "EASY_WRITING"
-ori_file = recording_loc + date_str + '_' + program_name
+ori_file = recording_loc + date_str + '_' + program_name + '.mp3'
 
 
 recoring_command = f"ffmpeg -t {record_mins} -y -i {radio_address}  {ori_file}"
