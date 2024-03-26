@@ -23,6 +23,7 @@ def get_vault_configuration(endpoint):
         response.raise_for_status()
 
 script_loc =  get_vault_configuration('ebs_radio')['scrip_loc']
+python_loc =  get_vault_configuration('ebs_radio')['python_loc']
 
 local_tz = pendulum.timezone("Asia/Seoul")
 
@@ -49,6 +50,6 @@ dag = DAG(
 run_script_task = SSHOperator(
     task_id='run_script',
     ssh_conn_id='ssh_rasp3',  # Airflow Connection에서 설정한 SSH 연결 ID 입력
-    command=f'python {script_loc}',  # 실행할 Python 스크립트 경로 입력
+    command=f'{python_loc} {script_loc}',  # 실행할 Python 스크립트 경로 입력
     dag=dag,
 )
