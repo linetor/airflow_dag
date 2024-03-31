@@ -38,13 +38,17 @@ default_args = {
     #'retries': 1,
     #'retry_delay': timedelta(minutes=5),
 }
+#06:00 Easy Writing
+#06:20 귀가 트이는 영어
+#06:40 입이 트이는 영어
+#07:40 Power English
 
 dag = DAG(
     'run_ebs_recording_scrip',
     default_args=default_args,
     catchup=False,
     description='Run ebs_recording Python script on rasp 3 server',
-    schedule_interval='20 06 * * 1-6 ',
+    schedule_interval='00 06 * * 1-6,20 06 * * 1-6,40 06 * * 1-6,40 07 * * 1-6',
 )
 
 import pytz
@@ -58,6 +62,8 @@ run_script_task = SSHOperator(
         'VAULT_ADDR': vault_addr,
         'VAULT_TOKEN' : vault_token,
     },
-    cmd_timeout=1800,     
+    cmd_timeout=1800,
     dag=dag,
 )
+
+#to do : slack notification
