@@ -44,7 +44,7 @@ default_args = {
 #07:40 Power English
 
 dag = DAG(
-    'run_ebs_recording_scrip for power english',
+    'run_ebs_recording_scrip_for_power_english',
     default_args=default_args,
     catchup=False,
     description='Run ebs_recording Python script on rasp 3 server',
