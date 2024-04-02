@@ -48,7 +48,7 @@ dag = DAG(
     default_args=default_args,
     catchup=False,
     description='Run ebs_recording Python script on rasp 3 server',
-    schedule_interval='00 06 * * 1-6,20 06 * * 1-6,40 06 * * 1-6,40 07 * * 1-6',
+    schedule_interval='40 7 * * 1-6',
 )
 
 import pytz
