@@ -48,7 +48,7 @@ dag = DAG(
     default_args=default_args,
     catchup=False,
     description='Run ebs_recording Python script on rasp 3 server',
-    schedule_interval='40 7 * * 1-6',
+    schedule_interval='40 06 * * 1-6',
 )
 
 import pytz
@@ -66,4 +66,23 @@ run_script_task = SSHOperator(
     dag=dag,
 )
 
-#to do : slack notification
+# TODO : slack notification
+def send_slack_message():
+    import json
+    url = get_vault_configuration('slack_alarm')['url']
+    headers = {'Content-type': 'application/json'}
+
+    data = {
+        "text": f"{current_time} ebs recording is done"
+    }
+
+    response = requests.post(url, headers=headers, data=json.dumps(data))
+
+from airflow.operators.python import PythonOperator
+send_slack_message_task = PythonOperator(
+    task_id='send_slack_message',
+    python_callable=send_slack_message,
+    dag=dag,
+)
+
+run_script_task >> send_slack_message_task
