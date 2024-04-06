@@ -47,9 +47,10 @@ dag = DAG(
     'run_ebs_recording_scrip_for_power_english',
     default_args=default_args,
     catchup=False,
-    description='Run ebs_recording Python script on rasp 3 server',
+    description='Run ebs_recording Python script on rasp 4 server',
     schedule_interval='40 07 * * 1-6',
 )
+
 
 import pytz
 current_time = datetime.now(pytz.timezone('Asia/Seoul')).strftime('%Y-%m-%d_%H:%M')
@@ -73,7 +74,7 @@ def send_slack_message():
     headers = {'Content-type': 'application/json'}
 
     data = {
-        "text": f"{current_time} ebs recording is done"
+        "text": f"power_english ebs recording is done at {current_time} "
     }
 
     response = requests.post(url, headers=headers, data=json.dumps(data))

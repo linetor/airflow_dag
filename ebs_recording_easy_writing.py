@@ -47,7 +47,7 @@ dag = DAG(
     'run_ebs_recording_scrip_for_easy_writing',
     default_args=default_args,
     catchup=False,
-    description='Run ebs_recording Python script on rasp 3 server',
+    description='Run ebs_recording Python script on rasp 4 server',
     schedule_interval='00 06 * * 1-6',
 )
 
@@ -73,7 +73,7 @@ def send_slack_message():
     headers = {'Content-type': 'application/json'}
 
     data = {
-        "text": f"{current_time} ebs recording is done"
+        "text": f"easy_writing ebs recording is done at {current_time} "
     }
 
     response = requests.post(url, headers=headers, data=json.dumps(data))
