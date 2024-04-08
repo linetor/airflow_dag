@@ -67,7 +67,6 @@ run_script_task = SSHOperator(
     dag=dag,
 )
 
-# TODO : slack notification
 def send_slack_message():
     import json
     url = get_vault_configuration('slack_alarm')['url']
