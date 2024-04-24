@@ -52,6 +52,7 @@ dag = DAG(
 
 import pytz
 current_year = datetime.now(pytz.timezone('Asia/Seoul')).strftime('%Y')
+current_time = datetime.now(pytz.timezone('Asia/Seoul')).strftime('%Y-%m-%d_%H:%M')
 
 run_script_task = SSHOperator(
     task_id='run_script',
