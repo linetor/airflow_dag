@@ -42,7 +42,7 @@ dag = DAG(
     default_args=default_args,
     catchup=False,
     description='Run dns update Python script on rasp 4 server',
-    schedule_interval='20 06 * * 1-6',
+    schedule_interval='00 08 * * *',
 )
 
 import pytz
