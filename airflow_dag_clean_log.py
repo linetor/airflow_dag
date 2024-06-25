@@ -48,21 +48,77 @@ dag = DAG(
     schedule_interval='00 22 * * 1-6',
 )
 
-def get_all_dag_ids():
-    dagbag = DagBag()
-    return dagbag.dag_ids
+import os
+def get_folder_list(log_loc):
+    """
+    지정된 경로에서 폴더만 리스트로 반환합니다.
 
-def process_dag_logs(dag_id):
-    logging.info(f"There is {dag_id} on airflow")
-    # 각 DAG의 로그 처리 로직 구현
-    pass
+    Args:
+        path (str): 탐색할 경로
 
-dag_ids = get_all_dag_ids()
+    Returns:
+        list: 폴더 이름 리스트
+    """
+    folders = []
+    for item in os.listdir(log_loc):
+        item_path = os.path.join(log_loc, item)
+        if os.path.isdir(item_path):
+            folders.append(item_path)
+    return folders
 
-for dag_id in dag_ids:
-    process_task = PythonOperator(
-        task_id=f'process_{dag_id}_logs',
-        python_callable=process_dag_logs,
-        op_args=[dag_id],
-        dag=dag,
-    )
+from datetime import datetime, timedelta
+
+# 현재 날짜와 시간 가져오기
+now = datetime.now()
+# 7일 전 날짜 계산
+seven_days_ago = now - timedelta(days=7)
+# "YYYY-MM-DD" 형식으로 변환
+delete_date_string = seven_days_ago.strftime("%Y-%m-%d")
+
+import shutil
+def process_dag_logs(log_loc):
+    folder_list = get_folder_list(log_loc)
+    for folder in folder_list:
+        logging.info(f"There is {folder} on airflow logs")
+        try:
+            if "dag_id=" in folder.split("/")[-1]:
+                for check_folder in get_folder_list(folder):
+                    if check_folder.split("/")[-1].split("__")[1][:10] <delete_date_string:
+                        shutil.rmtree(check_folder)
+            elif folder.split("/")[-1]=="scheduler":
+                for check_folder in get_folder_list(folder):
+                    if check_folder.split("/")[-1] <delete_date_string:
+                        shutil.rmtree(check_folder)
+            logging.info(f"{check_folder} 폴더가 성공적으로 삭제되었습니다.")
+        except FileNotFoundError:
+            logging.info(f"{check_folder} 폴더를 찾을 수 없습니다.")
+        except PermissionError:
+            logging.info(f"{check_folder} 폴더에 대한 삭제 권한이 없습니다.")
+
+clean_log_task = PythonOperator(
+    task_id="process_dag_logs",
+    python_callable=process_dag_logs,
+    op_kwargs={"log_loc": log_loc},
+)
+
+import pytz
+current_time = datetime.now(pytz.timezone('Asia/Seoul')).strftime('%Y-%m-%d_%H:%M')
+
+def send_slack_message():
+    import json
+    url = get_vault_configuration('slack_alarm')['url']
+    headers = {'Content-type': 'application/json'}
+
+    data = {
+        "text": f"airflow_dag_clean_log is done at {current_time} "
+    }
+
+    response = requests.post(url, headers=headers, data=json.dumps(data))
+
+send_slack_message_task = PythonOperator(
+    task_id='send_slack_message',
+    python_callable=send_slack_message,
+    dag=dag,
+)
+
+clean_log_task >> send_slack_message_task
