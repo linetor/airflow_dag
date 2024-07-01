@@ -28,6 +28,7 @@ def get_vault_configuration(endpoint):
         response.raise_for_status()
 
 log_loc =  get_vault_configuration('airflow')['log_loc']
+log_loc = "/opt/airflow/logs"
 local_tz = pendulum.timezone("Asia/Seoul")
 
 default_args = {
@@ -70,10 +71,10 @@ from datetime import datetime, timedelta
 
 # 현재 날짜와 시간 가져오기
 now = datetime.now()
-# 7일 전 날짜 계산
-seven_days_ago = now - timedelta(days=7)
+# delete  날짜 계산
+delete_days_ago = now - timedelta(days=10)
 # "YYYY-MM-DD" 형식으로 변환
-delete_date_string = seven_days_ago.strftime("%Y-%m-%d")
+delete_date_string = delete_days_ago.strftime("%Y-%m-%d")
 
 import shutil
 def process_dag_logs(log_loc):
@@ -99,6 +100,7 @@ clean_log_task = PythonOperator(
     task_id="process_dag_logs",
     python_callable=process_dag_logs,
     op_kwargs={"log_loc": log_loc},
+    dag=dag,
 )
 
 import pytz
