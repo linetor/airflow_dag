@@ -38,17 +38,17 @@ default_args = {
     #'retries': 1,
     #'retry_delay': timedelta(minutes=5),
 }
-#08:00 Easy Writing
-#08:20 귀가 트이는 영어
-#08:40 입이 트이는 영어
-#05:40 Power English
+#06:00 Easy Writing
+#06:20 귀가 트이는 영어
+#06:40 입이 트이는 영어
+#07:40 Power English
 
 dag = DAG(
     'run_ebs_recording_scrip_for_open_ear',
     default_args=default_args,
     catchup=False,
     description='Run ebs_recording Python script on rasp 4 server',
-    schedule_interval='20 08 * * 1-6',
+    schedule_interval='20 06 * * 1-6',
 )
 
 import pytz
