@@ -30,7 +30,7 @@ def get_vault_configuration(endpoint):
         response.raise_for_status()
 
 log_loc =  get_vault_configuration('airflow')['log_loc']
-# log_loc = "/opt/airflow/logs"
+log_loc = "/opt/airflow/logs"
 local_tz = pendulum.timezone("Asia/Seoul")
 
 default_args = {
