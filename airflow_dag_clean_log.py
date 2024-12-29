@@ -10,6 +10,24 @@ import requests
 import os
 import logging
 
+#slack 관련 해 vault 필요 했음
+vault_addr = Variable.get("VAULT_ADDR")
+vault_token = Variable.get("VAULT_TOKEN")
+
+def get_vault_configuration(endpoint):
+    endpoint = f"{vault_addr}/v1/kv/data/{endpoint}"
+
+    # HTTP GET 요청을 통해 데이터를 가져옵니다.
+    headers = {"X-Vault-Token": vault_token}
+    response = requests.get(endpoint, headers=headers)
+
+    if response.status_code == 200:
+        data = response.json()
+        return data['data']['data']
+
+    else:
+        # 에러 응답의 경우 예외를 발생시킵니다.
+        response.raise_for_status()
 
 # docker 안에서 작동
 log_loc = "/opt/airflow/logs"
