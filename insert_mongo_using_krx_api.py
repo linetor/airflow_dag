@@ -41,10 +41,10 @@ default_args = {
 
 
 dag = DAG(
-    'pulling_marcap_data',
+    'insert_mongo_using_krx_api',
     default_args=default_args,
     catchup=False,
-    description='Run pulling_marcap_data Python script on rasp 4 server',
+    description='Run insert_mongo_using_krx_api Python script on rasp 4 server',
     schedule_interval='30 21 * * *',
 )
 
